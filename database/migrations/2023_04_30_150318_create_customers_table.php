@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('account_holder')->nullable();
             $table->string('account_number')->nullable();
             $table->string('bank_name')->nullable();
-            // $table->string('customer_type')->nullable();
+            $table->string('type')->nullable();
 
             $table->timestamps();
         });

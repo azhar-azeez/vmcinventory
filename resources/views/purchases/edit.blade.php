@@ -59,10 +59,22 @@
                         <div class="form-control form-control-solid">{{ $purchase->updatedBy->name ?? '-' }}</div>
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label  class="small mb-1">Address</label>
-                    <div class="form-control form-control-solid">{{ $purchase->supplier->address }}</div>
+
+
+
+                <div class="row gx-3 mb-3">
+                    <div class="col-md-6">
+                        <label  class="small mb-1">Address</label>
+                        <div class="form-control form-control-solid">{{ $purchase->supplier->address }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label  class="small mb-1">Purchase Method</label>
+                        <div class="form-control form-control-solid">{{ $purchase->payment_method }}</div>
+                    </div>
                 </div>
+
+
+
                 <div class="col-lg-12">
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped align-middle">

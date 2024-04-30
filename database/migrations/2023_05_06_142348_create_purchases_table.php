@@ -20,6 +20,13 @@ return new class extends Migration
             $table->string('date'); // old: purchase_date
             $table->string('purchase_no'); // old: purchase_no
 
+            
+
+            $table->string('payment_method')->nullable()->after('total_amount')
+                ->comment('Payment method: cheque, credit, full cash');
+
+
+
             $table->tinyInteger('status' )  // old: purchase_status
                 ->default(0)
                 ->comment('0=Pending, 1=Approved');

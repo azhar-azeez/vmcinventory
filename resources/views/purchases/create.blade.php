@@ -60,6 +60,30 @@
                                         :data="$suppliers"
                                     />
 
+
+                                    
+                                    <div class="col-md-4">
+                                        <label for="payment_method" class="form-label required">
+                                            {{ __('Payment Method') }}
+                                        </label>
+                                        <select id="payment_method" name="payment_method"
+                                                class="form-control @error('payment_method') is-invalid @enderror"
+                                                required>
+                                            <option value="" selected disabled>Select Payment Method</option>
+                                            <option value="cheque">Cheque</option>
+                                            <option value="credit">Credit</option>
+                                            <option value="full_cash">Full Cash</option>
+                                        </select>
+                                        @error('payment_method')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+
+
+
                                     <div class="col-md-4">
                                         <label for="reference" class="form-label required">
                                             {{ __('Reference') }}

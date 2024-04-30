@@ -70,6 +70,7 @@ class PurchaseController extends Controller
         return view('purchases.create', [
             'categories' => Category::where('user_id',auth()->id())->select(['id', 'name'])->get(),
             'suppliers' => Supplier::where('user_id',auth()->id())->select(['id', 'name'])->get(),
+            'paymentMethods' => ['cheque', 'credit', 'full cash'],
         ]);
     }
 
@@ -93,6 +94,7 @@ class PurchaseController extends Controller
             'supplier_id'   =>$request->supplier_id,
             'date'          =>$request->date,
             'total_amount'  =>$request->total_amount,
+            'payment_method' => $request->payment_method, 
             'uuid'=>Str::uuid(),
             'user_id'=>auth()->id()
         ]);
@@ -191,7 +193,7 @@ class PurchaseController extends Controller
             ->join('users', 'users.id', '=', 'purchases.created_by')
             ->whereBetween('purchases.updated_at',[$sDate,$eDate])
             ->where('purchases.status','1')
-            ->select( 'purchases.purchase_no', 'purchases.updated_at', 'purchases.supplier_id','products.code', 'products.name', 'purchase_details.quantity', 'purchase_details.unitcost', 'purchase_details.total', 'users.name as created_by')
+            ->select( 'purchases.purchase_no', 'purchases.updated_at', 'purchases.supplier_id', 'products.code', 'products.name', 'purchase_details.quantity', 'purchase_details.unitcost', 'purchase_details.total', 'purchases.payment_method', 'users.name as created_by')
             ->get();
 
         $purchase_array [] = array(
@@ -203,6 +205,7 @@ class PurchaseController extends Controller
             'Quantity',
             'Unitcost',
             'Total',
+            'Purchase Type',
             'Created By'
         );
 

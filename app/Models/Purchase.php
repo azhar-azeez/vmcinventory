@@ -22,6 +22,7 @@ class Purchase extends Model
         'purchase_no',
         'status',
         'total_amount',
+        'payment_method',
         'created_by',
         'updated_by',
         "user_id",
