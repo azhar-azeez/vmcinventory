@@ -88,6 +88,10 @@
                                             <td>{{ $product->code }}</td>
                                         </tr>
                                         <tr>
+                                            <td><span class="text-secondary">Type</span></td>
+                                            <td>{{ ucfirst($product->product_type) }}</td>
+                                        </tr>
+                                        <tr>
                                             <td>Barcode</td>
                                             <td>{!! $barcode !!}</td>
                                         </tr>

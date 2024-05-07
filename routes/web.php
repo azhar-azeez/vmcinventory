@@ -8,6 +8,7 @@ use App\Http\Controllers\Order\DueOrderController;
 use App\Http\Controllers\Order\OrderCompleteController;
 use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\OrderPendingController;
+use App\Http\Controllers\Rent\RentalController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductExportController;
@@ -77,6 +78,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Route::post('/pos/invoice', [PosController::class, 'createInvoice'])->name('pos.createInvoice');
     Route::post('invoice/create/', [InvoiceController::class, 'create'])->name('invoice.create');
+    Route::post('invoice/rent/create/', [InvoiceController::class, 'create_rent'])->name('invoice.create_rent');
 
     // Route Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -85,6 +87,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+
+    //Route Rents
+    Route::get('/rents', [RentalController::class, 'index'])->name('rents.index');
+    Route::get('/rents/create', [RentalController::class, 'create'])->name('rents.create');
+
 
     // SHOW ORDER
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');

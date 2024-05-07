@@ -135,6 +135,27 @@
                                         </div>
 
                                         <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product_type">
+                                                {{ __('Product Type') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select name="product_type" id="product_type" class="form-select @error('product_type') is-invalid @enderror">
+                                                @foreach($productTypes as $type)
+                                                    <option @if (old('product_type', $product->product_type) == $type) selected="selected" @endif value="{{ $type }}">{{ ucfirst($type) }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('product_type')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+
+                                        <div class="col-sm-6 col-md-6">
                                             <div class="mb-3">
                                                 <label class="form-label" for="buying_price">
                                                     Buying price

@@ -28,6 +28,7 @@ class ProductController extends Controller
     {
         $categories = Category::where("user_id", auth()->id())->get(['id', 'name']);
         $units = Unit::where("user_id", auth()->id())->get(['id', 'name']);
+        $productTypes = ['rent', 'retail'];
 
         if ($request->has('category')) {
             $categories = Category::where("user_id", auth()->id())->whereSlug($request->get('category'))->get();
@@ -40,6 +41,7 @@ class ProductController extends Controller
         return view('products.create', [
             'categories' => $categories,
             'units' => $units,
+            'productTypes' => $productTypes
         ]);
     }
 
@@ -72,6 +74,7 @@ class ProductController extends Controller
             'tax'               => $request->tax,
             'tax_type'          => $request->tax_type,
             'notes'             => $request->notes,
+            'product_type'      => $request->product_type,
             "user_id" => auth()->id(),
             "slug" => Str::slug($request->name, '-'),
             "uuid" => Str::uuid()
@@ -98,10 +101,12 @@ class ProductController extends Controller
     public function edit($uuid)
     {
         $product = Product::where("uuid", $uuid)->firstOrFail();
+        $productTypes = ['rent', 'retail'];
         return view('products.edit', [
             'categories' => Category::where("user_id", auth()->id())->get(),
             'units' => Unit::where("user_id", auth()->id())->get(),
-            'product' => $product
+            'product' => $product,
+            'productTypes' => $productTypes
         ]);
     }
 
@@ -129,6 +134,7 @@ class ProductController extends Controller
         $product->selling_price = $request->selling_price;
         $product->quantity_alert = $request->quantity_alert;
         $product->tax = $request->tax;
+        $product->product_type = $request->product_type;
         $product->tax_type = $request->tax_type;
         $product->notes = $request->notes;
         $product->product_image = $image;

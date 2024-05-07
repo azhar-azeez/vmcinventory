@@ -150,6 +150,26 @@
                                     </div>
 
                                     <div class="col-sm-6 col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product_type">
+                                                {{ __('Product Type') }}
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select name="product_type" id="product_type" class="form-select @error('product_type') is-invalid @enderror">
+                                                @foreach($productTypes as $type)
+                                                    <option value="{{ $type }}"  @if(old('product_type') == $type) selected="selected" @endif >{{ ucfirst($type) }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @error('product_type')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6 col-md-6">
                                         <x-input type="number"
                                                  label="Buying Price"
                                                  name="buying_price"

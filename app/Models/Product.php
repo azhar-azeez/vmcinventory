@@ -31,7 +31,8 @@ class Product extends Model
         'created_at',
         'updated_at',
         "user_id",
-        "uuid"
+        "uuid",
+        "product_type"
     ];
 
     protected $casts = [

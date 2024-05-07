@@ -28,13 +28,15 @@ class StoreProductRequest extends FormRequest
             'name'              => 'required|string',
             'category_id'       => 'required|integer',
             'unit_id'           => 'required|integer',
-            'quantity'          => 'required|integer',
-            'buying_price'      => 'required|integer',
-            'selling_price'     => 'required|integer',
-            'quantity_alert'    => 'required|integer',
+            'quantity'          => 'required|integer|min:0|max:2147483647', // Maximum value for integer in MySQL
+            'quantity_alert'    => 'required|integer|min:0|max:2147483647', // Maximum value for integer in MySQL
+            'buying_price'      => 'required|numeric|min:0|max:2147483647', // Range for integer in MySQL
+            'selling_price'     => 'required|numeric|min:0|max:2147483647', // Range for integer in MySQL
             'tax'               => 'nullable|numeric',
             'tax_type'          => 'nullable|integer',
-            'notes'             => 'nullable|max:1000'
+            'notes'             => 'nullable|max:1000',
+            'product_type'      => 'required|in:rent,retail',
+
         ];
     }
 
