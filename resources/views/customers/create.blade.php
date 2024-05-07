@@ -55,8 +55,28 @@
                                     <div class="col-md-12">
                                         <x-input name="name" :required="true"/>
 
+                                    </div>
+
+
+                                    <div class="col-sm-6 col-md-6">
                                         <x-input name="email" label="Email address" :required="true"/>
                                     </div>
+
+                                    <div class="col-sm-6 col-md-6">
+                                        <label for="type" class="form-label required">Customer Type</label>
+                                        <select class="form-select @error('type') is-invalid @enderror" id="type" name="type">
+                                            <option selected disabled>Select a type:</option>
+                                            @foreach(\App\Enums\CustomerType::cases() as $customerType)
+                                                <option value="{{ $customerType->value }}" @selected(old('type') == $customerType->value)>
+                                                    {{ $customerType->label() }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('customer_type')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
 
                                     <div class="col-sm-6 col-md-6">
                                         <x-input label="Phone Number" name="phone" :required="true"/>

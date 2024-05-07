@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,7 @@ class Customer extends Model
         'account_holder',
         'account_number',
         'bank_name',
+        'type',
         "user_id",
         "uuid"
     ];
@@ -31,6 +33,7 @@ class Customer extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'type' => CustomerType::class,
     ];
 
     public function orders(): HasMany

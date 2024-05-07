@@ -18,6 +18,7 @@ class StockAlert extends Mailable
      */
     public function __construct(private array $listProducts)
     {
+        
     }
 
     /**

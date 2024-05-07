@@ -62,6 +62,10 @@
                                         <td>{{ $customer->address }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Type</td>
+                                        <td>{{ $customer->type }}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Account holder</td>
                                         <td>{{ $customer->account_holder }}</td>
                                     </tr>
