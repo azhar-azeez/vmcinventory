@@ -92,13 +92,13 @@
                                             <tr>
                                                 <td colspan="3" class="text-end"><strong>Tax</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ Cart::tax() }}</strong>
+                                                    <strong>{{ Cart::tax(0) }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end"><strong>Total</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ Cart::total() }}</strong>
+                                                    <strong>{{ Cart::total(0) }}</strong>
                                                 </td>
                                             </tr>
                                         </tbody>

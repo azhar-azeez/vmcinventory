@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Requests\Order;
+namespace App\Http\Requests\Rent;
 
-use App\Enums\OrderStatus;
 use Illuminate\Support\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Foundation\Http\FormRequest;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Validation\Rules\Enum;
 
-class OrderStoreRequest extends FormRequest
+class RentStoreRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -21,7 +20,9 @@ class OrderStoreRequest extends FormRequest
         return [
             'customer_id' => 'required',
             'payment_type' => 'required',
-            'pay' => 'required|numeric'
+            'pay' => 'required|numeric',
+            'rent_date' => 'required|date',
+            'return_date' => 'required|date|after_or_equal:rent_date'
         ];
     }
 

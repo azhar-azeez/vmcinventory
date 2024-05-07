@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class RentRetails extends Model
+class RentDetails extends Model
 {
     use HasFactory;
+
+    protected $table = 'rent_details';
+
     protected $guarded = ['id'];
 
     protected $fillable = [

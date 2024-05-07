@@ -91,7 +91,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //Route Rents
     Route::get('/rents', [RentalController::class, 'index'])->name('rents.index');
     Route::get('/rents/create', [RentalController::class, 'create'])->name('rents.create');
+    Route::post('/rents/store', [RentalController::class, 'store'])->name('rents.store');
+    Route::get('/rents/{rent}', [RentalController::class, 'show'])->name('rents.show');
+    Route::delete('/rents/cancel/{rent}', [RentalController::class, 'destroy'])->name('rents.destroy');
 
+    //Rent Invoice
+    Route::get('/rents/details/{rent_id}/download', [RentalController::class, 'downloadInvoice'])->name('rent.downloadInvoice');
 
     // SHOW ORDER
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');

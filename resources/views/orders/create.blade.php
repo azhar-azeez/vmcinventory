@@ -159,13 +159,13 @@
                                         <tr>
                                             <td colspan="4" class="text-end">Tax</td>
                                             <td class="text-center">
-                                                {{ Cart::tax() }}
+                                                {{ Cart::tax(0) }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td colspan="4" class="text-end">Total</td>
                                             <td class="text-center">
-                                                {{ Cart::total() }}
+                                                {{ Cart::total(0) }}
                                             </td>
                                         </tr>
                                     </tbody>

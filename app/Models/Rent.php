@@ -41,13 +41,13 @@ class Rent extends Model
 
     public function details(): HasMany
     {
-        return $this->hasMany(OrderDetails::class);
+        return $this->hasMany(RentDetails::class);
     }
 
     public function scopeSearch($query, $value): void
     {
         $query->where('invoice_no', 'like', "%{$value}%")
-            ->orWhere('payment_type', 'like', "%{$value}%");
+              ->orWhere('payment_type', 'like', "%{$value}%");
     }
 
      /**

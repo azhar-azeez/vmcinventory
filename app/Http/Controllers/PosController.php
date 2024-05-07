@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
+
 class PosController extends Controller
 {
     public function index(Request $request)
@@ -14,7 +15,7 @@ class PosController extends Controller
         $products = Product::with(['category', 'unit'])->get();
 
         $customers = Customer::all()->sortBy('name');
-
+ 
         $carts = Cart::content();
 
         return view('pos.index', [
@@ -45,6 +46,7 @@ class PosController extends Controller
             1,
             (array)$options = null
         );
+       
 
         return redirect()
             ->back()
@@ -67,6 +69,7 @@ class PosController extends Controller
         
 
         Cart::update($rowId, $validatedData['qty']);
+  
 
         return redirect()
             ->back()

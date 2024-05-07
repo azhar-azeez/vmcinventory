@@ -181,7 +181,7 @@
 
                                     <div class="col-sm-6 col-md-6">
                                         <x-input type="number"
-                                                 label="Selling Price"
+                                                 label="Selling / Per day Price"
                                                  name="selling_price"
                                                  id="selling_price"
                                                  placeholder="0"
@@ -209,17 +209,17 @@
                                         />
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6 hidden" hidden>
                                         <x-input type="number"
                                                  label="Tax"
                                                  name="tax"
                                                  id="tax"
                                                  placeholder="0"
-                                                 value="{{ old('tax') }}"
+                                                 value="0"
                                         />
                                     </div>
 
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-6" hidden >
                                         <div class="mb-3">
                                             <label class="form-label" for="tax_type">
                                                 {{ __('Tax Type') }}

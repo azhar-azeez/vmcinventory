@@ -62,6 +62,14 @@
                                         <p class="inv-from-2">{{ $user->store_address }}</p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-6 mb-50">
+                                        <h4 class="inv-title-1">Rental Info</h4>
+                                        <p class="inv-from-1">Renting Date - {{ $rent_date }}</p>
+                                        <p class="inv-from-1">Return Date - {{ $return_date }}</p>
+                 
+                                    </div>
+                                </div>
                             </div>
                             <div class="order-summary">
                                 <div class="table-outer">
@@ -81,23 +89,24 @@
                                                 <td class="text-center">{{ $item->name }}</td>
                                                 <td class="text-center">{{ $item->price }}</td>
                                                 <td class="text-center">{{ $item->qty }}</td>
+                                                <td class="text-center">{{ $day_count }}</td>
                                                 <td class="text-center">{{ $item->subtotal }}</td>
                                             </tr>
                                             @endforeach
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Subtotal</strong></td>
+                                                <td colspan="4" class="text-end"><strong>Subtotal</strong></td>
                                                 <td class="text-center">
                                                     <strong>{{ Cart::subtotal() }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Tax</strong></td>
+                                                <td colspan="4" class="text-end"><strong>Tax</strong></td>
                                                 <td class="text-center">
                                                     <strong>{{ Cart::tax() }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                                <td colspan="4" class="text-end"><strong>Total</strong></td>
                                                 <td class="text-center">
                                                     <strong>{{ Cart::total() }}</strong>
                                                 </td>
@@ -112,7 +121,7 @@
                                     <li><a href="mailto:sales@hotelempire.com">info@example.com</a></li>
                                     <li><a href="tel:+088-01737-133959">+62 123 123 123</a></li>
                                 </ul> --}}
-        {{--                    </div>--}}
+                         {{-- </div>--}}
                         </div>
 
                         <div class="invoice-btn-section clearfix d-print-none">
@@ -139,14 +148,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form action="{{ route('orders.store') }}" method="POST">
+                    <form action="{{ route('rents.store') }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-
+                                        <input type="hidden" name="rent_date" value="{{ $rent_date }}">
+                                        <input type="hidden" name="return_date" value="{{ $return_date }}">
                                         <x-input.index label="Customer" name="customer" value="{{ $customer->name }}" disabled/>
                                     </div>
                                 </div>

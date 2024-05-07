@@ -33,6 +33,12 @@ class OrderController extends Controller
 
     public function create()
     {
+    
+        $invalid_products = Product::where('user_id', auth()->id())
+        ->where('product_type', 'rent')
+        ->get();
+        $invalidProductIds = $invalid_products->pluck('id')->toArray();
+
         $products = Product::where('user_id', auth()->id())
         ->where('product_type', 'retail')
         ->with(['category', 'unit'])
@@ -42,6 +48,15 @@ class OrderController extends Controller
 
         $carts = Cart::content();
 
+        foreach ($carts as $cart) {
+            if (in_array($cart->id, $invalidProductIds)) {
+                Cart::remove($cart->rowId);
+            }
+        }
+
+        $carts = Cart::content();
+
+        $carts->tax = 0;
         return view('orders.create', [
             'products' => $products,
             'customers' => $customers,
@@ -74,6 +89,7 @@ class OrderController extends Controller
 
         // Create Order Details
         $contents = Cart::content();
+        $contents->tax = 0;
         $oDetails = [];
 
         foreach ($contents as $content) {
