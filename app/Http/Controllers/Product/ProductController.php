@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -12,6 +13,11 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\StockAlert;
+use App\Mail\TestEmail;
+use App\Events\ProductQuantityUpdated;
+
 
 class ProductController extends Controller
 {
@@ -140,6 +146,7 @@ class ProductController extends Controller
         $product->product_image = $image;
         $product->save();
 
+        $this->checkStockAlert($product);
 
         return redirect()
             ->route('products.index')
@@ -165,4 +172,13 @@ class ProductController extends Controller
             ->route('products.index')
             ->with('success', 'Product has been deleted!');
     }
+
+    public function checkStockAlert(Product $product)
+    {
+        if ($product->quantity <= $product->quantity_alert) {
+            Log::info("Triggering ProductStockLow event for product: " . $product->name);
+            event(new ProductQuantityUpdated($product));
+        }
+    }
+    
 }

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,44 +14,28 @@ class StockAlert extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public array $products; // Expect an array of Product instances
     /**
      * Create a new message instance.
-     */
-    public function __construct(private array $listProducts)
-    {
-        
-    }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Stock Alert',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'emails.stock-alert',
-            with: [
-                'listProducts' => $this->listProducts
-            ],
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @param  \App\Models\Product  $product
+     * @return void
      */
-    public function attachments(): array
+
+     public function __construct(array $products) {
+         $this->products = $products; // Store the list of products
+     }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
     {
-        return [];
+        return $this->subject('Stock Alert: Product Quantity Low')
+                    ->view('emails.stock-alert', ['products' => $this->products]);
+
     }
+    
 }
