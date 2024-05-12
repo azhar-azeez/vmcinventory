@@ -137,6 +137,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/quotations/complete/{quotation}', [QuotationController::class, 'update'])->name('quotations.update');
     Route::delete('/quotations/delete/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.delete');
 
+    // //API derived infographs
+    Route::get('/api/get-monthly-revenue-data', [OrderController::class, 'getMonthlyRevenueData'])
+    ->name('orders.monthlyRevenueData');
+
+    Route::get('/api/get-products-available-data', [ProductController::class, 'getProductsAvailableData'])
+    ->name('products.productsAvailableData');
+
+    Route::get('/api/get-top-sold-products-data', [OrderController::class, 'getTopSoldProductsData'])
+    ->name('orders.topSoldProductsData');
+
+    Route::get('/api/get-sold-by-type-data', [OrderController::class, 'getSoldByTypeData'])
+    ->name('orders.soldByTypeData');
+
     // Test
     Route::get('/test-email', [TestController::class, 'sendTestEmail']);
 });

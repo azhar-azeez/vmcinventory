@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('products/', [ProductController::class, 'index'])->name('api.product.index');
+
+// Route::post('/get-daily-revenue-data', [OrderController::class, 'getDailyRevenueData'])
+//     ->name('orders.dailyRevenueData');

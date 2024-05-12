@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Str;
 
+
 class OrderController extends Controller
 {
     public function index()
@@ -192,4 +193,68 @@ class OrderController extends Controller
             ])
             ->with('success', 'Order has been canceled!');
     }
+
+
+
+    public function getMonthlyRevenueData() {
+        // Query to get daily revenue data
+        $revenueData = DB::table('orders')
+                        ->select(DB::raw('DATE(order_date) as date'), DB::raw('SUM(total) as revenue'))
+                        ->groupBy('date')
+                        ->get();
+
+        return response()->json($revenueData);
+    }
+
+    public function getTopSoldProductsData(Request $request)
+    {
+        // Query to get top sold products data
+        $topSoldProductsData = OrderDetails::join('products', 'order_details.product_id', '=', 'products.id')
+            ->select('products.name', DB::raw('SUM(order_details.quantity) as total_sold'))
+            ->groupBy('products.name')
+            ->orderByDesc('total_sold')
+            ->limit(5) // Adjust this limit as needed
+            ->get();
+
+        return response()->json($topSoldProductsData);
+    }
+
+    public function getSoldByTypeData()
+    {
+        // Initialize arrays
+        $dataByDate = [];
+
+        // Query to get sold quantities by product type
+        $soldByTypeData = Product::select(DB::raw('DATE(created_at) as date'), 'product_type', DB::raw('SUM(quantity) as total_quantity'))
+            ->groupBy('date', 'product_type')
+            ->get();
+
+        // Organize data by date and product type
+        foreach ($soldByTypeData as $entry) {
+            $date = $entry->date;
+            $productType = $entry->product_type;
+            $quantity = $entry->total_quantity;
+
+            // Add quantity to data array
+            if (!isset($dataByDate[$date])) {
+                $dataByDate[$date] = ['rent' => 0, 'retail' => 0];
+            }
+
+            $dataByDate[$date][$productType] += $quantity;
+        }
+
+        // Prepare data for response
+        $dates = array_keys($dataByDate);
+        $rentQuantities = array_column($dataByDate, 'rent');
+        $retailQuantities = array_column($dataByDate, 'retail');
+
+        $data = [
+            'dates' => $dates,
+            'rentQuantities' => $rentQuantities,
+            'retailQuantities' => $retailQuantities,
+        ];
+
+        return response()->json($data);
+    }
+
 }

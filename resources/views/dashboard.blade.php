@@ -292,6 +292,57 @@
                     </div>
                 </div>
 
+
+                <!-- Container for the revenue graph -->
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Daily Revenue</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="monthlyRevenueChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container for the pie chart -->
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Products Available</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="productsAvailableChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container for the Bar chart -->
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Top Sold Products</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="topSoldProductsChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Container for the Line chart -->
+                <div class="col-sm-6 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sold Products by Type</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="stackedBarChart"></div>
+                        </div>
+                    </div>
+                </div>
+
+
+
                 {{-- -
                 <div class="col-lg-6">
                     <div class="card">
@@ -713,75 +764,175 @@
     <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function() {
-            window.ApexCharts && (new ApexCharts(document.getElementById('chart-revenue-bg'), {
-                chart: {
-                    type: "area",
-                    fontFamily: 'inherit',
-                    height: 40.0,
-                    sparkline: {
-                        enabled: true
+        fetch('{{ route("orders.monthlyRevenueData") }}')
+            .then(response => response.json())
+            .then(data => {
+                const dates = data.map(entry => entry.date);
+                const revenues = data.map(entry => entry.revenue);
+
+                new ApexCharts(document.getElementById('monthlyRevenueChart'), {
+                    chart: {
+                        type: "area",
+                        fontFamily: 'inherit',
+                        height: 400,
                     },
-                    animations: {
-                        enabled: false
+                    dataLabels: {
+                        enabled: false,
                     },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                fill: {
-                    opacity: .16,
-                    type: 'solid'
-                },
-                stroke: {
-                    width: 2,
-                    lineCap: "round",
-                    curve: "smooth",
-                },
-                series: [{
-                    name: "Profits",
-                    data: [37, 35, 44, 28, 36, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93,
-                        53, 61, 27, 54, 43, 19, 46, 39, 62, 51, 35, 41, 67
-                    ]
-                }],
-                tooltip: {
-                    theme: 'dark'
-                },
-                grid: {
-                    strokeDashArray: 4,
-                },
-                xaxis: {
-                    labels: {
-                        padding: 0,
+                    fill: {
+                        opacity: .16,
+                        type: 'solid'
+                    },
+                    stroke: {
+                        width: 2,
+                        lineCap: "round",
+                        curve: "smooth",
+                    },
+                    series: [{
+                        name: "Revenue",
+                        data: revenues
+                    }],
+                    xaxis: {
+                        categories: dates,
                     },
                     tooltip: {
-                        enabled: false
+                        theme: 'dark'
                     },
-                    axisBorder: {
-                        show: false,
+                }).render();
+            })
+            .catch(error => {
+                console.error('Error fetching monthly revenue data:', error);
+            });
+    });
+        // @formatter:on
+
+    </script>
+
+    <!-- JavaScript code for the pie chart -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('{{ route("products.productsAvailableData") }}')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(product => product.name);
+                const quantities = data.map(product => product.quantity);
+
+                new ApexCharts(document.getElementById('productsAvailableChart'), {
+                    chart: {
+                        type: "pie",
+                        fontFamily: 'inherit',
+                        height: 400,
                     },
-                    type: 'datetime',
-                },
-                yaxis: {
-                    labels: {
-                        padding: 4
+                    series: quantities,
+                    labels: labels,
+                    dataLabels: {
+                        enabled: true,
                     },
-                },
-                labels: [
-                    '2020-06-20', '2020-06-21', '2020-06-22', '2020-06-23', '2020-06-24',
-                    '2020-06-25', '2020-06-26', '2020-06-27', '2020-06-28', '2020-06-29',
-                    '2020-06-30', '2020-07-01', '2020-07-02', '2020-07-03', '2020-07-04',
-                    '2020-07-05', '2020-07-06', '2020-07-07', '2020-07-08', '2020-07-09',
-                    '2020-07-10', '2020-07-11', '2020-07-12', '2020-07-13', '2020-07-14',
-                    '2020-07-15', '2020-07-16', '2020-07-17', '2020-07-18', '2020-07-19'
-                ],
-                colors: [tabler.getColor("primary")],
-                legend: {
-                    show: false,
-                },
-            })).render();
+                    tooltip: {
+                        theme: 'dark'
+                    },
+                }).render();
+            })
+            .catch(error => {
+                console.error('Error fetching products available data:', error);
+            });
+    });
+    </script>
+
+    <!-- JavaScript code for the BAR chart -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('{{ route("orders.topSoldProductsData") }}')
+                .then(response => response.json())
+                .then(data => {
+                    const productNames = data.map(entry => entry.name);
+                    const totalSold = data.map(entry => entry.total_sold);
+
+                    new ApexCharts(document.getElementById('topSoldProductsChart'), {
+                        chart: {
+                            type: "bar",
+                            fontFamily: 'inherit',
+                            height: 400,
+                        },
+                        dataLabels: {
+                            enabled: true,
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: true,
+                            }
+                        },
+                        fill: {
+                            opacity: .20,
+                            type: 'solid'
+                        },
+                        series: [{
+                            name: "Total Sold",
+                            data: totalSold
+                        }],
+                        xaxis: {
+                            categories: productNames,
+                        },
+                        tooltip: {
+                            theme: 'dark'
+                        },
+                    }).render();
+                })
+                .catch(error => {
+                    console.error('Error fetching top sold products data:', error);
+                });
+        });
+        
+    </script>
+
+    <script>
+        // @formatter:off
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('{{ route("orders.soldByTypeData") }}')
+                .then(response => response.json())
+                .then(data => {
+                    const categories = data.dates;
+                    const series = [
+                        {
+                            name: 'Rent',
+                            data: data.rentQuantities
+                        },
+                        {
+                            name: 'Retail',
+                            data: data.retailQuantities
+                        }
+                    ];
+
+                    new ApexCharts(document.getElementById('stackedBarChart'), {
+                        chart: {
+                            type: 'bar',
+                            height: 400,
+                            stacked: true,
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                            },
+                        },
+                        series: series,
+                        xaxis: {
+                            categories: categories,
+                        },
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            intersect: false,
+                        },
+                    }).render();
+                })
+                .catch(error => {
+                    console.error('Error fetching sold by type data:', error);
+                });
         });
         // @formatter:on
     </script>
+
     <script>
         // @formatter:off
         document.addEventListener("DOMContentLoaded", function() {

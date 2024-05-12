@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\StockAlert;
 use App\Mail\TestEmail;
 use App\Events\ProductQuantityUpdated;
+
 
 
 class ProductController extends Controller
@@ -180,5 +182,22 @@ class ProductController extends Controller
             event(new ProductQuantityUpdated($product));
         }
     }
+
+
+
+    public function getProductsAvailableData()
+    {
+        /**
+         * Pie chart of available products
+         */
+        $productsData = DB::table('products')
+                        ->select('name', 'quantity')
+                        ->get();
+
+        return response()->json($productsData);
+    }
+
+
+
     
 }
