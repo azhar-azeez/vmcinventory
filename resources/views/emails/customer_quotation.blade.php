@@ -25,6 +25,13 @@
     </style>
 </head>
 <body>
+
+    <div class="col-lg-6 col-sm-6">
+        <div class="logo text-left" style="color: maroon; font-size: 24px;"> <!-- Adjust font size and color as needed -->
+            VMC ENTERPRISES
+        </div>
+    </div>
+
     <h2>Customer Quotation</h2>
     <table>
         <tr>
@@ -40,8 +47,14 @@
             <td>{{ $quotation->customer->name }}</td>
         </tr>
         <tr>
-            <th>Total Amount</th>
-            <td>{{ $quotation->total_amount }}</td>
+            <th>State</th>
+            <td>
+                @if ($quotation->status == 1)
+                    SENT
+                @else
+                    PENDING
+                @endif
+            </td>
         </tr>
         <!-- Add more rows for other relevant quotation details -->
     </table>
@@ -62,6 +75,16 @@
             <td>{{ $detail->quantity * $detail->unit_price }}</td>
         </tr>
         @endforeach
+        <tr>
+            <td colspan="3" style="text-align: right;">Grand Total:</td>
+            <td>{{ $quotation->total_amount }}</td>
+        </tr>
     </table>
+
+    <ul>
+        <li>Company: <a href="https://vmcenterprises.com/">VMC Enterprises</a></li>
+        <li>Mail Address: <a href="mailto:vmcenterprises18@gmail.com">vmcenterprises18@gmail.com</a></li>
+        <li>Contact us: <a href="tel:076 443 5438">076 443 5438</a></li>
+    </ul>
 </body>
 </html>
