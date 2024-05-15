@@ -21,6 +21,7 @@ class Order extends Model
         'sub_total',
         'vat',
         'total',
+        'order_discount',
         'invoice_no',
         'payment_type',
         'pay',

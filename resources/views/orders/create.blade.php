@@ -83,6 +83,16 @@
                                     </div>
                                     @enderror
                                 </div>
+
+                                <div class="col-md-4">
+                                    <label for="discount" class="small mb-1">{{ __('Discount (%)') }}</label>
+                                    <input type="number" class="form-control @error('discount') is-invalid @enderror" id="discount" id="discount" name="discount" min="0" max="100" step="0.01">
+                                </div>
+                                @error('discount')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
 
                             <div class="table-responsive">
@@ -174,6 +184,7 @@
 
                         </div>
                         <div class="card-footer text-end">
+                            
                             <button type="submit" class="btn btn-success add-list mx-1 {{ Cart::count() > 0 ? '' : 'disabled' }}">
                                 {{ __('Create Invoice') }}
                             </button>
@@ -262,4 +273,5 @@
 
 @pushonce('page-scripts')
     <script src="{{ asset('assets/js/img-preview.js') }}"></script>
+
 @endpushonce

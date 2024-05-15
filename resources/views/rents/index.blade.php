@@ -39,7 +39,7 @@
                             <x-table.td>{{ $rent->rent_date->format('d-m-Y') }}</x-table.td>
                             <x-table.td>{{ $rent->return_date->format('d-m-Y') }}</x-table.td>
                     
-                            <x-table.td>{{ Number::currency($rent->total, 'EUR') }}</x-table.td>
+                            <x-table.td>{{ Number::currency($rent->total, 'LKR') }}</x-table.td>
 
                             <x-table.td>
                                 <x-button.show class="btn-icon" route="{{ route('orders.show', $order->uuid) }}"/>

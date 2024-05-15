@@ -5,7 +5,7 @@
             @method('put')
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">
+                    <h5 class="modal-title" style="color: #FFFFFF;">
                         {{ $order->invoice_no }}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -14,29 +14,29 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="mb-3">
-                                <label for="payed" class="form-label required">
-                                    {{ __('Payed') }}
+                                <label for="payed" class="form-label required" style="color: #FFFFFF;">
+                                    {{ __('Paid') }}
                                 </label>
 
                                 <input type="text" id="payed" class="form-control"
-                                       value="{{ Number::currency($order->pay, 'EUR') }}" disabled
+                                       value="{{ Number::currency($order->pay, 'LKR') }}" disabled
                                 >
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="due" class="form-label required">
+                                <label for="due" class="form-label required" style="color: #FFFFFF;">
                                     {{ __('Due') }}
                                 </label>
 
                                 <input type="text" id="due" class="form-control"
-                                       value="{{ Number::currency($order->due, 'EUR') }}" disabled>
+                                       value="{{ Number::currency($order->due, 'LKR') }}" disabled>
                             </div>
                         </div>
 
                         <div class="col-lg-12">
-                            <label for="pay_now" class="form-label required">
+                            <label for="pay_now" class="form-label required" style="color: #FFFFFF;">
                                 {{ __('Pay Now') }}
                             </label>
 
@@ -44,7 +44,7 @@
                                    id="pay_now"
                                    name="pay"
                                    class="form-control @error('pay') is-invalid @enderror"
-                                   value="{{ old('pay') }}"
+                                   value="{{ old('pay') ?? $order->due - $order->pay }}"
                                    required
                             />
 

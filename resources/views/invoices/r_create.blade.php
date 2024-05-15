@@ -23,9 +23,10 @@
                         <div class="invoice-inner-9" id="invoice_wrapper">
                             <div class="invoice-top">
                                 <div class="row">
+                                    <!-- Logo in the middle -->
                                     <div class="col-lg-6 col-sm-6">
-                                        <div class="logo">
-                                            <h1>{{ $user->store_name }}</h1>
+                                        <div class="logo text-left"> <!-- Set the height of the container -->
+                                            <img src="{{ asset('static/vmclogo.png') }}" alt="Your Logo" style="height: 60px;"> <!-- Set max-height to ensure image fits within container -->
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-sm-6">
@@ -115,13 +116,13 @@
                                     </table>
                                 </div>
                             </div>
-                            {{-- <div class="invoice-informeshon-footer">
+                            <div class="invoice-informeshon-footer">
                                 <ul>
-                                    <li><a href="#">www.website.com</a></li>
-                                    <li><a href="mailto:sales@hotelempire.com">info@example.com</a></li>
-                                    <li><a href="tel:+088-01737-133959">+62 123 123 123</a></li>
-                                </ul> --}}
-                         {{-- </div>--}}
+                                    <li><a href="https://vmcenterprises.com/">VMC Enterprises</a></li>
+                                    <li><a href="mailto:vmcenterprises18@gmail.com">vmcenterprises18@gmail.com</a></li>
+                                    <li><a href="tel:076 443 5438">076 443 5438</a></li>
+                                </ul>
+                            </div> 
                         </div>
 
                         <div class="invoice-btn-section clearfix d-print-none">

@@ -56,7 +56,7 @@ class OrderController extends Controller
         }
 
         $carts = Cart::content();
-
+        
         $carts->tax = 0;
         return view('orders.create', [
             'products' => $products,
@@ -65,8 +65,13 @@ class OrderController extends Controller
         ]);
     }
 
+    
     public function store(OrderStoreRequest $request)
     {
+        $subtotal = Cart::subtotal();
+        $discount = $request->discount ?? 0;
+        $total = $subtotal - $discount;
+
         $order = Order::create([
             'customer_id' => $request->customer_id,
             'payment_type' => $request->payment_type,
@@ -74,16 +79,17 @@ class OrderController extends Controller
             'order_date' => Carbon::now()->format('Y-m-d'),
             'order_status' => OrderStatus::PENDING->value,
             'total_products' => Cart::count(),
-            'sub_total' => Cart::subtotal(),
+            'sub_total' => $subtotal,
             'vat' => Cart::tax(),
-            'total' => Cart::total(),
+            'total' => $total,
+            'order_discount' => $discount,
             'invoice_no' => IdGenerator::generate([
                 'table' => 'orders',
                 'field' => 'invoice_no',
                 'length' => 10,
                 'prefix' => 'INV-'
             ]),
-            'due' => (Cart::total() - $request->pay),
+            'due' => ($total - $request->pay),
             'user_id' => auth()->id(),
             'uuid' => Str::uuid(),
         ]);
@@ -111,6 +117,8 @@ class OrderController extends Controller
             ->route('orders.index')
             ->with('success', 'Order has been created!');
     }
+
+
 
     public function show($uuid)
     {

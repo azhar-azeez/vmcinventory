@@ -29,7 +29,18 @@ class RentalController extends Controller
 
     public function create()
     {
-     
+        // Get products that are available for rent
+        $availableProducts = Product::where('user_id', auth()->id())
+        ->where('product_type', 'rent')
+        ->whereNotIn('id', function($query) {
+            $query->select('product_id')
+                ->from('rent_details')
+                ->join('rents', 'rent_details.rent_id', '=', 'rents.id')
+                ->where('rents.return_date', '>=', now()->toDateString());
+        })
+        ->with(['category', 'unit'])
+        ->get();
+
         $products = Product::where('user_id', auth()->id())
         ->where('product_type', 'rent')
         ->with(['category', 'unit'])
@@ -56,10 +67,11 @@ class RentalController extends Controller
         $carts->tax = 0;
 
         return view('rents.create', [
-            'products' => $products,
+            'products' => $availableProducts,
             'customers' => $customers,
             'carts' => $carts,
         ]);
+
     }
 
     public function store(RentStoreRequest $request)

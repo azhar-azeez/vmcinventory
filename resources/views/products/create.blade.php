@@ -196,7 +196,7 @@
                                                  id="quantity"
                                                  placeholder="0"
                                                  value="{{ old('quantity', 0) }}"
-                                                 disabled
+                      
                                         />
                                     </div>
 
