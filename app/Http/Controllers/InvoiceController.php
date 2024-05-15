@@ -12,18 +12,39 @@ class InvoiceController extends Controller
 {
     public function create(StoreInvoiceRequest $request, Customer $customer)
     {
+        $discountPercentage = $request->input('discount');
+
         $customer = Customer::where('id', $request->get('customer_id'))
             ->first();
 
         $carts = Cart::content();
-       
+        $discountAmountTotal = 0;
+        // Iterate over each item and apply the discount
+        foreach ($carts as $item) {
+            // Calculate the discount amount for the item
+            $discountAmount = ($discountPercentage / 100) * ($item->price * $item->qty);
+            
+            $discountAmountTotal += $discountAmount;
+            // Calculate the new subtotal for the item
+            //$newSubtotal = ($item->price * $item->qty) - $discountAmount;
+
+
+            // Update the item's subtotal
+           // $item->subtotal = $newSubtotal;
+            // Update the subtotal for the item in the cart
+           // Cart::update($item->rowId, ['subtotal' => $newSubtotal]);
+        }
+
         return view('invoices.create', [
             'customer' => $customer,
-            'carts' => $carts
+            'carts' => $carts,
+            'discount' => $discountPercentage,
+            'discountAmount' => $discountAmountTotal
         ]);
     }
 
-    public function create_rent(StoreRentInvoiceRequest $request, Customer $customer){
+    public function create_rent(StoreRentInvoiceRequest $request, Customer $customer)
+    {
 
         $customer = Customer::where('id', $request->get('customer_id'))
             ->first();
@@ -46,7 +67,7 @@ class InvoiceController extends Controller
         }
 
         // Loop through each item in the cart
-        foreach($carts as $item) {
+        foreach ($carts as $item) {
             // Get the rental period (number of days) for the item
             $rentalPeriod = $dayCount ?? 1; // Default to 1 day if not set
 
@@ -57,7 +78,7 @@ class InvoiceController extends Controller
             // Update the subtotal for the item in the cart
             Cart::update($item->rowId, ['subtotal' => $newSubtotal]);
         }
-        
+
         return view('invoices.r_create', [
             'customer' => $customer,
             'carts' => $carts,

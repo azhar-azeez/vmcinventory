@@ -91,6 +91,12 @@
                                                 </td>
                                             </tr>
                                             <tr>
+                                                <td colspan="3" class="text-end"><strong>Discount %</strong></td>
+                                                <td class="text-center">
+                                                    <strong>{{ $discount }}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td colspan="3" class="text-end"><strong>Tax</strong></td>
                                                 <td class="text-center">
                                                     <strong>{{ Cart::tax(0) }}</strong>
@@ -99,7 +105,7 @@
                                             <tr>
                                                 <td colspan="3" class="text-end"><strong>Total</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ Cart::total(0) }}</strong>
+                                                    <strong>{{ Cart::total() - $discountAmount }}</strong>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -146,7 +152,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <input type="hidden" name="customer_id" value="{{ $customer->id }}">
-
+                                        <input type="hidden" name="discount" value="{{ $discountAmount }}">
                                         <x-input.index label="Customer" name="customer" value="{{ $customer->name }}" disabled/>
                                     </div>
                                 </div>
@@ -181,7 +187,7 @@
                                            id="pay"
                                            name="pay"
                                            class="form-control @error('pay') is-invalid @enderror"
-                                           value="{{ Cart::total() }}"
+                                           value="{{ Cart::total() - $discountAmount }}"
                                            required
                                     >
 

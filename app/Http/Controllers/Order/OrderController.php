@@ -69,6 +69,7 @@ class OrderController extends Controller
     public function store(OrderStoreRequest $request)
     {
         $subtotal = Cart::subtotal();
+        
         $discount = $request->discount ?? 0;
         $total = $subtotal - $discount;
 

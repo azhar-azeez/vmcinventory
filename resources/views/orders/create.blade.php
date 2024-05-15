@@ -86,7 +86,7 @@
 
                                 <div class="col-md-4">
                                     <label for="discount" class="small mb-1">{{ __('Discount (%)') }}</label>
-                                    <input type="number" class="form-control @error('discount') is-invalid @enderror" id="discount" id="discount" name="discount" min="0" max="100" step="0.01">
+                                    <input type="number" class="form-control @error('discount') is-invalid @enderror" id="discount" name="discount" min="0" max="100" step="0.01">
                                 </div>
                                 @error('discount')
                                 <div class="invalid-feedback">
