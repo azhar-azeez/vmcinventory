@@ -28,6 +28,7 @@
                     <x-table.th>{{ __('Rent Date') }}</x-table.th>
                     <x-table.th>{{ __('Return Date') }}</x-table.th>
                     <x-table.th>{{ __('Total') }}</x-table.th>
+                    <x-table.th>{{ __('Pay Type') }}</x-table.th>
                     <x-table.th>{{ __('Actions') }}</x-table.th>
                 </x-slot:th>
                 <x-slot:tbody>

@@ -75,9 +75,9 @@
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('order_status')" href="#" role="button">
-                            {{ __('Status') }}
-                            @include('inclues._sort-icon', ['field' => 'order_status'])
+                        <a wire:click.prevent="sortBy('payment_type')" href="#" role="button">
+                            {{ __('Pay Type') }}
+                            @include('inclues._sort-icon', ['field' => 'payment_type'])
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
@@ -105,6 +105,9 @@
                         </td>
                         <td class="align-middle text-center">
                             {{ Number::currency($rent->total, 'LKR') }}
+                        </td>
+                        <td class="align-middle text-center">
+                            {{ $rent->payment_type }}
                         </td>
 
                         <td class="align-middle text-center">

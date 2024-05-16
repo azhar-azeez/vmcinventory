@@ -3,6 +3,15 @@
 @section('content')
 <div class="page-body">
     <div class="container-xl">
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
         <div class="row row-cards">
             <div class="col-lg-7">
                 <div class="card">

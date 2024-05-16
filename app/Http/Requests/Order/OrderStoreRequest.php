@@ -22,8 +22,14 @@ class OrderStoreRequest extends FormRequest
             'customer_id' => 'required',
             'payment_type' => 'required',
             'pay' => 'required|numeric',
-            'discount' => 'numeric|min:0|max:100'
+            //'discount' => 'numeric|min:0|max:100'
         ];
     }
 
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $response = redirect()->route('orders.create');
+
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
+    }
 }

@@ -31,6 +31,7 @@
             VMC ENTERPRISES
         </div>
     </div>
+    <img src="https://drscdn.500px.org/photo/1092866560/q%3D50_h%3D450_of%3D1/v2?sig=9493308b70e563e653e668be7f48f2f43b2176f05578cbe1c326d9ba40333f12" alt="Logo" style="max-height: 50px; margin-left: 10px;">
 
     <h2>Customer Quotation</h2>
     <table>
@@ -65,7 +66,8 @@
             <th>Product</th>
             <th>Quantity</th>
             <th>Unit Price</th>
-            <th>Total</th>
+            <th>Sub Total</th>
+  
         </tr>
         @foreach($quotation->quotationDetails as $detail)
         <tr>
@@ -73,8 +75,18 @@
             <td>{{ $detail->quantity }}</td>
             <td>{{ $detail->unit_price }}</td>
             <td>{{ $detail->quantity * $detail->unit_price }}</td>
+     
+            
         </tr>
         @endforeach
+        <tr>
+            <td colspan="3" style="text-align: right;">Total:</td>
+            <td>{{ $quotation->total_amount }}</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right;">Discount:</td>
+            <td>{{ $quotation->discount_amount }}</td>
+        </tr>
         <tr>
             <td colspan="3" style="text-align: right;">Grand Total:</td>
             <td>{{ $quotation->total_amount }}</td>
