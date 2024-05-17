@@ -137,6 +137,17 @@
                                             </div>
                                         @enderror
                                     </div>
+                                    <div class="col">
+                                        <label for="payment_type" class="small mb-1">
+                                            Payment
+                                        </label>
+                                        <select class="form-select" name="payment_type" id="payment_type" required>
+                                            <option value="HandCash">HandCash</option>
+                                            <option value="Cheque">Cheque</option>
+                                            <option value="Due">Due</option>
+                                        </select>
+
+                                    </div>
                                 </div>
 
                                 <livewire:product-cart :cartInstance="'quotation'"/>

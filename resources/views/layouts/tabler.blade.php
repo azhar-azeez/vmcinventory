@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name') }}</title>
+    <title>VMC Application</title>
+    <link rel="icon" href="{{ asset('vmc.ico') }}" type="image/x-icon">
 
     <!-- CSS files -->
     <link href="{{ asset('dist/css/tabler.min.css') }}" rel="stylesheet" />
@@ -117,10 +118,10 @@
                                 {{--                                    </div> --}}
                                 <span class="dropdown-header">Dropdown header</span>
                                 <a class="dropdown-item" href="#">
-                                    Action
+                                    New
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    Another action
+                                    Recent msg
                                 </a>
                             </div>
                         </div>

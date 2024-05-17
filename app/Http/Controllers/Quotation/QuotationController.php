@@ -187,6 +187,7 @@ class QuotationController extends Controller
             'sub_total' => $quotation->total_amount,
             'vat' => 0, // Adjust based on your business logic
             'total' => $quotation->total_amount,
+            'order_discount' => $quotation->discount_amount,
             'payment_type' => 'HandCash', // Set a default payment type
             'pay' => 0, // Initial payment amount
             'due' => $quotation->total_amount,

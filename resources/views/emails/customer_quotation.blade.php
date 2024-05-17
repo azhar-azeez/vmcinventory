@@ -80,10 +80,6 @@
         </tr>
         @endforeach
         <tr>
-            <td colspan="3" style="text-align: right;">Total:</td>
-            <td>{{ $quotation->total_amount }}</td>
-        </tr>
-        <tr>
             <td colspan="3" style="text-align: right;">Discount:</td>
             <td>{{ $quotation->discount_amount }}</td>
         </tr>
