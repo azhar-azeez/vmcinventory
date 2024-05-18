@@ -14,9 +14,12 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Picqer\Barcode\BarcodeGeneratorHTML;
 use Str;
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\StockAlert;
 use App\Mail\TestEmail;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use App\Events\ProductQuantityUpdated;
 
 
@@ -197,7 +200,74 @@ class ProductController extends Controller
         return response()->json($productsData);
     }
 
+    ///////////Stock Report///////////
 
-
+    public function getProductStockReport()
+    {
+        return view('products.product-report');
+    }
     
+    public function generateStockReport(Request $request)
+    {
+        // Define the threshold for low stock quantity
+        $lowStockThreshold = 10; // Adjust this threshold as needed
+
+        // Fetch retail products with current stock below the threshold
+        $products = Product::where('product_type', 'retail')
+                            ->where('quantity', '<', $lowStockThreshold)
+                            ->get();
+
+        // Create an empty array to store the stock maintenance report
+        $stockReport = [];
+
+        // Iterate over each product to gather relevant information
+        foreach ($products as $product) {
+            // Fetch product details
+            $currentStock = $product->quantity;
+            $productName = $product->name;
+            $productCode = $product->code;
+            $quantityAlert = $product->quantity_alert;
+
+            // Add product details to the stock maintenance report
+            $stockReport[] = [
+                'product_name' => $productName,
+                'current_stock' => $currentStock,
+                'code' => $productCode,
+                'quantity_alert' => $quantityAlert,
+            ];
+        }
+
+        // Export stock maintenance report as Excel file
+        return $this->exportStockReportToExcel($stockReport);
+    }
+
+    private function exportStockReportToExcel($stockReport)
+    {
+        try {
+            // Add column headings
+            array_unshift($stockReport, [
+                'Product Name',
+                'Current Stock',
+                'Product Code',
+                'Quantity Alert',
+            ]);
+    
+            $spreadsheet = new Spreadsheet();
+            $spreadsheet->getActiveSheet()->fromArray($stockReport, null, 'A1');
+    
+            $writer = new Xlsx($spreadsheet);
+    
+            $fileName = 'stock_report_' . now()->format('Y_m_d_H_i_s') . '.xlsx';
+            $filePath = storage_path('app/public/' . $fileName);
+    
+            $writer->save($filePath);
+    
+            return response()->download($filePath, $fileName)->deleteFileAfterSend(true);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
 }

@@ -22,5 +22,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('products/', [ProductController::class, 'index'])->name('api.product.index');
 
-// Route::post('/get-daily-revenue-data', [OrderController::class, 'getDailyRevenueData'])
-//     ->name('orders.dailyRevenueData');

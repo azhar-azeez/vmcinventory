@@ -133,7 +133,13 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="6" class="text-end">
-                                        Payed amount
+                                        Overall Discount
+                                    </td>
+                                    <td class="text-center">{{ number_format($order->order_discount, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-end">
+                                        Paid amount
                                     </td>
                                     <td class="text-center">{{ number_format($order->pay, 2) }}</td>
                                 </tr>

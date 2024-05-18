@@ -106,7 +106,7 @@
                         <x-button.show class="btn-icon" route="{{ route('quotations.show', $quotation->uuid) }}"/>
                         @if ($quotation->status === \App\Enums\QuotationStatus::PENDING)
                             {{-- <x-button.edit class="btn-icon" route="{{ route('quotations.edit', $quotation->uuid) }}"/> --}}
-                            <x-button.complete class="btn-icon" route="{{ route('quotations.update', $quotation->uuid) }}" onclick="return confirm('Are you sure to complete quotation no. {{ $quotation->reference }}?')"/>
+                            <x-button.complete class="btn-icon" route="{{ route('quotations.complete', $quotation->uuid) }}" onclick="return confirm('Are you sure to complete quotation no. {{ $quotation->reference }}?')"/>
                             <x-button.delete class="btn-icon" route="{{ route('quotations.destroy', $quotation) }}" onclick="return confirm('Are you sure to cancel Quotation NO. {{ $quotation->reference }}?')"/>
                         @endif
                     </td>

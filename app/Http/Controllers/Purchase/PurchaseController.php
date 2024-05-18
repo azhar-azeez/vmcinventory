@@ -226,7 +226,7 @@ class PurchaseController extends Controller
 
         $this->exportExcel($purchase_array);
     }
-
+    
     public function exportExcel($products)
     {
         ini_set('max_execution_time', 0);

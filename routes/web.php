@@ -43,6 +43,8 @@ Route::get('/', function () {
     }
     return redirect('/login');
 });
+    // Route for displaying the stock maintenance report form
+    Route::get('/products/product-report', [ProductController::class, 'getProductStockReport'])->name('products.getProductStockReport');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -71,6 +73,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('products/export/', [ProductExportController::class, 'create'])->name('products.export.store');
     Route::resource('/products', ProductController::class);
 
+    
+
+    // Route for generating the stock maintenance report
+    Route::post('/products/generate-stock-report', [ProductController::class, 'generateStockReport'])->name('products.generateStockReport');
+
+
     // Route POS
     Route::get('/pos', [PosController::class, 'index'])->name('pos.index');
     Route::post('/pos/cart/add', [PosController::class, 'addCartItem'])->name('pos.addCartItem');
@@ -88,6 +96,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
+
+
+    
+    // Route for displaying the profit report form
+    Route::get('/orders/profit-report', [OrderController::class, 'showProfitReportForm'])->name('orders.showProfitReportForm');
+    // Route for generating the profit report
+    Route::post('/orders/generate-profit-report', [OrderController::class, 'generateProfitReport'])->name('orders.generateProfitReport');
+
+    // Route for displaying the Due report form
+    Route::get('/orders/duepay-report', [OrderController::class, 'getDuePaymentReport'])->name('orders.getDuePaymentReport');
+
+    // Route for generating the Due report
+    Route::post('/orders/generate-due-payments-report', [OrderController::class, 'generateDuePaymentReports'])
+    ->name('orders.generateDuePaymentReports');
+
+
 
     //Route Rents
     Route::get('/rents', [RentalController::class, 'index'])->name('rents.index');
@@ -134,7 +158,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route Quotations
     // Route::get('/quotations/{quotation}/edit', [QuotationController::class, 'edit'])->name('quotations.edit');
-    Route::post('/quotations/complete/{quotation}', [QuotationController::class, 'update'])->name('quotations.update');
+    Route::post('/quotations/complete/{quotation}', [QuotationController::class, 'update'])->name('quotations.complete');
     Route::delete('/quotations/delete/{quotation}', [QuotationController::class, 'destroy'])->name('quotations.delete');
 
     // //API derived infographs
