@@ -2,12 +2,9 @@
 
 namespace App\Http\Requests\Order;
 
-use App\Enums\OrderStatus;
-use Illuminate\Support\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Foundation\Http\FormRequest;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class OrderStoreRequest extends FormRequest
 {
@@ -26,10 +23,14 @@ class OrderStoreRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    // Override the failedValidation method
+    protected function failedValidation(Validator $validator)
     {
-        $response = redirect()->route('orders.create');
+        $response = redirect()
+            ->route('orders.create')
+            ->withErrors($validator)
+            ->withInput();
 
-        throw new \Illuminate\Validation\ValidationException($validator, $response);
+        throw new ValidationException($validator, $response);
     }
 }

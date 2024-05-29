@@ -66,10 +66,14 @@ class RentalController extends Controller
         
         $carts->tax = 0;
 
+        // Add the available rent types
+        $rentTypes = ['Monthly', 'Daily']; 
+
         return view('rents.create', [
             'products' => $availableProducts,
             'customers' => $customers,
             'carts' => $carts,
+            'rentTypes' => $rentTypes,
         ]);
 
     }
@@ -94,6 +98,7 @@ class RentalController extends Controller
             ]),
             'user_id' => auth()->id(),
             'uuid' => Str::uuid(),
+            'rent_type' => $request->rent_type, 
         ]);
 
         // Create Order Details

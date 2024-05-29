@@ -24,6 +24,7 @@ class Rent extends Model
         'total',
         'invoice_no',
         'payment_type',
+        'rent_type',
         'uuid',
     ];
 
@@ -47,7 +48,8 @@ class Rent extends Model
     public function scopeSearch($query, $value): void
     {
         $query->where('invoice_no', 'like', "%{$value}%")
-              ->orWhere('payment_type', 'like', "%{$value}%");
+              ->orWhere('payment_type', 'like', "%{$value}%")
+              ->orWhere('rent_type', 'like', "%{$value}%");
     }
 
      /**

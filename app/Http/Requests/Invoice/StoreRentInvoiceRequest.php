@@ -24,6 +24,7 @@ class StoreRentInvoiceRequest extends FormRequest
             'customer_id' => 'required',
             'rent_date' => 'required|date',
             'return_date' => 'required|date|after_or_equal:rent_date',
+            'rent_type' => 'required|in:Monthly,Daily',
         ];
     }
 }

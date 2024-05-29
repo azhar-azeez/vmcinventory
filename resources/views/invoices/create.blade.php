@@ -91,9 +91,9 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Discount %</strong></td>
+                                                <td colspan="3" class="text-end"><strong>Discount</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ $discount }}</strong>
+                                                    <strong>{{ $discountAmount }}</strong>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -103,11 +103,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                                <td colspan="3" class="text-end"><strong>Additional Cost</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ Cart::total() - $discountAmount }}</strong>
+                                                    <strong>{{ $additional_cost }}</strong>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end"><strong>Total</strong></td>
+                                                <td class="text-center">
+                                                    <strong>{{ Cart::total() - $discountAmount + $additional_cost }}</strong>
+                                                </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -153,6 +160,7 @@
                                     <div class="mb-3">
                                         <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                                         <input type="hidden" name="discount" value="{{ $discountAmount }}">
+                                        <input type="hidden" name="additional_cost" value="{{ $additional_cost }}">
                                         <x-input.index label="Customer" name="customer" value="{{ $customer->name }}" disabled/>
                                     </div>
                                 </div>
@@ -187,7 +195,7 @@
                                            id="pay"
                                            name="pay"
                                            class="form-control @error('pay') is-invalid @enderror"
-                                           value="{{ Cart::total() - $discountAmount }}"
+                                           value="{{ Cart::total() - $discountAmount + $additional_cost }}"
                                            required
                                     >
 

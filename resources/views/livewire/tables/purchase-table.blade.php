@@ -105,7 +105,9 @@
                         </td>
                         <td class="align-middle text-center">
                             <x-button.show class="btn-icon" route="{{ route('purchases.edit', $purchase->uuid) }}"/>
+                            <x-button.delete class="btn-icon" onclick="return confirm('Are you sure!')" route="{{ route('purchases.delete', $purchase->uuid) }}"/>
                         </td>
+
                     @else
                         <td class="align-middle text-center">
                             <span class="badge bg-orange text-white text-uppercase">

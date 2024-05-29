@@ -158,6 +158,7 @@
                                         <input type="hidden" name="customer_id" value="{{ $customer->id }}">
                                         <input type="hidden" name="rent_date" value="{{ $rent_date }}">
                                         <input type="hidden" name="return_date" value="{{ $return_date }}">
+                                        <input type="hidden" name="rent_type" value="{{ $rent_type }}">
                                         <x-input.index label="Customer" name="customer" value="{{ $customer->name }}" disabled/>
                                     </div>
                                 </div>

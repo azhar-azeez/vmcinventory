@@ -94,14 +94,25 @@
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="discount" class="small mb-1">{{ __('Discount (%)') }}</label>
-                                    <input type="number" class="form-control @error('discount') is-invalid @enderror" id="discount" name="discount" min="0" max="100" step="0.01">
+                                    <label for="discount" class="small mb-1">{{ __('Discount (LKR)') }}</label>
+                                    <input type="number" class="form-control @error('discount') is-invalid @enderror" value="0" id="discount" name="discount" min="0" max="100" step="0.01">
                                 </div>
                                 @error('discount')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
+
+                                <div class="col-md-4">
+                                    <label for="additional_cost" class="small mb-1">{{ __('Additional Cost (LKR)') }}</label>
+                                    <input type="number" class="form-control @error('additional_cost') is-invalid @enderror" value="0" id="additional_cost" name="additional_cost">
+                                </div>
+                                @error('additional_cost')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+
                             </div>
 
                             <div class="table-responsive">
@@ -175,6 +186,7 @@
                                                 {{ Cart::subtotal() }}
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td colspan="4" class="text-end">Tax</td>
                                             <td class="text-center">
@@ -185,6 +197,12 @@
                                             <td colspan="4" class="text-end">Total</td>
                                             <td class="text-center">
                                                 {{ Cart::total(0) }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-end">Additional Cost</td>
+                                            <td class="text-center" id="additional_cost_cell">
+                                                {{ 0 }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -282,5 +300,14 @@
 
 @pushonce('page-scripts')
     <script src="{{ asset('assets/js/img-preview.js') }}"></script>
+    <script>
+    // Add an event listener to the input field
+    document.getElementById('additional_cost').addEventListener('input', function() {
+        // Get the value entered in the input field
+        var additionalCost = parseFloat(this.value);
 
+        // Update the content of the table cell
+        document.getElementById('additional_cost_cell').innerText = additionalCost.toFixed(2); // Adjust the number of decimal places as needed
+    });
+</script>
 @endpushonce

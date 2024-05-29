@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Rent;
 
-use Illuminate\Support\Carbon;
-use Gloudemans\Shoppingcart\Facades\Cart;
+
 use Illuminate\Foundation\Http\FormRequest;
-use Haruncpi\LaravelIdGenerator\IdGenerator;
-use Illuminate\Validation\Rules\Enum;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
 
 class RentStoreRequest extends FormRequest
 {
@@ -22,8 +21,19 @@ class RentStoreRequest extends FormRequest
             'payment_type' => 'required',
             'pay' => 'required|numeric',
             'rent_date' => 'required|date',
-            'return_date' => 'required|date|after_or_equal:rent_date'
+            'return_date' => 'required|date|after_or_equal:rent_date',
+            'rent_type' => 'required|in:Monthly,Daily',
         ];
     }
 
+    // Override the failedValidation method
+    protected function failedValidation(Validator $validator)
+    {
+        $response = redirect()
+            ->route('rents.create')
+            ->withErrors($validator)
+            ->withInput();
+
+        throw new ValidationException($validator, $response);
+    }
 }

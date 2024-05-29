@@ -12,34 +12,37 @@ class InvoiceController extends Controller
 {
     public function create(StoreInvoiceRequest $request, Customer $customer)
     {
-        $discountPercentage = $request->input('discount');
+        $discountAmountTotal = $request->input('discount');
+
+        $additional_cost = $request->input('additional_cost');
 
         $customer = Customer::where('id', $request->get('customer_id'))
             ->first();
 
         $carts = Cart::content();
-        $discountAmountTotal = 0;
+        //$discountAmountTotal = 0;
         // Iterate over each item and apply the discount
-        foreach ($carts as $item) {
-            // Calculate the discount amount for the item
-            $discountAmount = ($discountPercentage / 100) * ($item->price * $item->qty);
+        // foreach ($carts as $item) {
+        //     // Calculate the discount amount for the item
+        //     $discountAmount = ($discountPercentage / 100) * ($item->price * $item->qty);
             
-            $discountAmountTotal += $discountAmount;
-            // Calculate the new subtotal for the item
-            //$newSubtotal = ($item->price * $item->qty) - $discountAmount;
+        //     $discountAmountTotal += $discountAmount;
+        //     // Calculate the new subtotal for the item
+        //     //$newSubtotal = ($item->price * $item->qty) - $discountAmount;
 
 
-            // Update the item's subtotal
-           // $item->subtotal = $newSubtotal;
-            // Update the subtotal for the item in the cart
-           // Cart::update($item->rowId, ['subtotal' => $newSubtotal]);
-        }
+        //     // Update the item's subtotal
+        //    // $item->subtotal = $newSubtotal;
+        //     // Update the subtotal for the item in the cart
+        //    // Cart::update($item->rowId, ['subtotal' => $newSubtotal]);
+        // }
 
         return view('invoices.create', [
             'customer' => $customer,
             'carts' => $carts,
-            'discount' => $discountPercentage,
-            'discountAmount' => $discountAmountTotal
+//            'discount' => $discountPercentage,
+            'discountAmount' => $discountAmountTotal,
+            'additional_cost' => $additional_cost
         ]);
     }
 
@@ -52,6 +55,7 @@ class InvoiceController extends Controller
 
         $rent_date = Carbon::parse($request->rent_date);
         $return_date = Carbon::parse($request->return_date);
+        $rent_type = $request->rent_type;
 
         $formattedRentDate = $rent_date->format('d-m-Y');
         $formattedReturnDate = $return_date->format('d-m-Y');
@@ -84,7 +88,8 @@ class InvoiceController extends Controller
             'carts' => $carts,
             'rent_date' => $formattedRentDate,
             'return_date' => $formattedReturnDate,
-            'day_count' => $dayCount
+            'day_count' => $dayCount,
+            'rent_type' => $rent_type
         ]);
     }
 }

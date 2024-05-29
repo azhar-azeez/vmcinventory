@@ -76,7 +76,8 @@ class OrderController extends Controller
         $subtotal = Cart::subtotal();
         
         $discount = $request->discount ?? 0;
-        $total = $subtotal - $discount;
+        $additional_cost = $request->additional_cost ?? 0;
+        $total = $subtotal - $discount + $additional_cost;
 
         $order = Order::create([
             'customer_id' => $request->customer_id,

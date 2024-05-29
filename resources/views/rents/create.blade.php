@@ -3,6 +3,17 @@
 @section('content')
 <div class="page-body">
     <div class="container-xl">
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
         <div class="row row-cards">
             <div class="col-lg-7">
                 <div class="card">
@@ -67,14 +78,9 @@
                                     </label>
 
                                     <select class="form-select form-control-solid @error('customer_id') is-invalid @enderror" id="customer_id" name="customer_id">
-                                        <option selected="" disabled="">
-                                            Select a customer:
-                                        </option>
-
+                                        <option value="" disabled {{ old('customer_id') ? '' : 'selected' }}>Select a customer:</option>
                                         @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" @selected( old('customer_id') == $customer->id)>
-                                                {{ $customer->name }}
-                                            </option>
+                                            <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>{{ $customer->name }}</option>
                                         @endforeach
                                     </select>
 
@@ -83,6 +89,25 @@
                                         {{ $message }}
                                     </div>
                                     @enderror
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="small mb-1" for='rent_type'>
+                                        {{__('Rent Type')}}
+                                    </label>
+
+                                    <select class="form-select form-control-solid @error('rent_type') is-invalid @enderror" id="rent_type" name="rent_type">
+                                            <option value="" disabled {{ old('rent_type') ? '' : 'selected' }}>Select a type:</option>
+                                            <option value="Monthly">Monthly</option>
+                                            <option value="Daily">Daily</option>
+                                        </select>
+
+                                        @error('rent_type')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+
                                 </div>
 
                                 <div class="col-md-4">
@@ -282,4 +307,27 @@
 
 @pushonce('page-scripts')
     <script src="{{ asset('assets/js/img-preview.js') }}"></script>
+
+    <script>
+        // Your JavaScript code goes here
+        $(document).ready(function() {
+            // Store the selected values when the dropdowns change
+            $('#customer_id').on('change', function() {
+                var selectedCustomerId = $(this).val();
+                // Store the selected customer ID in a variable or use it as needed
+            });
+
+            $('#rent_type').on('change', function() {
+                var selectedRentType = $(this).val();
+                // Store the selected rent type in a variable or use it as needed
+            });
+
+            // Repopulate the dropdowns with the stored values after the page change
+            var selectedCustomerId = /* retrieve the stored customer ID */;
+            $('#customer_id').val(selectedCustomerId);
+
+            var selectedRentType = /* retrieve the stored rent type */;
+            $('#rent_type').val(selectedRentType);
+        });
+    </script>
 @endpushonce
