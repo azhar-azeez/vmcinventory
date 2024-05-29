@@ -23,6 +23,7 @@ class RentStoreRequest extends FormRequest
             'rent_date' => 'required|date',
             'return_date' => 'required|date|after_or_equal:rent_date',
             'rent_type' => 'required|in:Monthly,Daily',
+            'additional_cost' => 'numeric',
         ];
     }
 

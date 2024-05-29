@@ -24,7 +24,7 @@ class StoreInvoiceRequest extends FormRequest
         return [
             'customer_id' => 'required',
             'discount' => 'numeric|min:0|max:100',
-            'additional_cost'=> 'numeric',
+            'additional_cost' => 'numeric|min:0',
         ];
     }
 }

@@ -22,6 +22,7 @@ class Order extends Model
         'vat',
         'total',
         'order_discount',
+        'additional_cost',
         'invoice_no',
         'payment_type',
         'pay',

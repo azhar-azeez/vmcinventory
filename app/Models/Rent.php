@@ -22,6 +22,7 @@ class Rent extends Model
         'sub_total',
         'vat',
         'total',
+        'additional_cost',
         'invoice_no',
         'payment_type',
         'rent_type',

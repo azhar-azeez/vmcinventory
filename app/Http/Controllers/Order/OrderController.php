@@ -89,6 +89,7 @@ class OrderController extends Controller
             'sub_total' => $subtotal,
             'vat' => Cart::tax(),
             'total' => $total,
+            'additional_cost' => $additional_cost,
             'order_discount' => $discount,
             'invoice_no' => IdGenerator::generate([
                 'table' => 'orders',

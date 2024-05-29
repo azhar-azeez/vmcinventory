@@ -56,6 +56,7 @@ class InvoiceController extends Controller
         $rent_date = Carbon::parse($request->rent_date);
         $return_date = Carbon::parse($request->return_date);
         $rent_type = $request->rent_type;
+        $additional_cost = $request->additional_cost;
 
         $formattedRentDate = $rent_date->format('d-m-Y');
         $formattedReturnDate = $return_date->format('d-m-Y');
@@ -89,7 +90,8 @@ class InvoiceController extends Controller
             'rent_date' => $formattedRentDate,
             'return_date' => $formattedReturnDate,
             'day_count' => $dayCount,
-            'rent_type' => $rent_type
+            'rent_type' => $rent_type,
+            'additional_cost' => $additional_cost
         ]);
     }
 }

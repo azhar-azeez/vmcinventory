@@ -107,11 +107,18 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4" class="text-end"><strong>Total</strong></td>
+                                                <td colspan="4" class="text-end"><strong>Additional</strong></td>
                                                 <td class="text-center">
-                                                    <strong>{{ Cart::total() }}</strong>
+                                                    <strong>{{ $additional_cost }}</strong>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-end"><strong>Total</strong></td>
+                                                <td class="text-center">
+                                                    <strong>{{ Cart::total() + $additional_cost }}</strong>
+                                                </td>
+                                            </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -159,6 +166,7 @@
                                         <input type="hidden" name="rent_date" value="{{ $rent_date }}">
                                         <input type="hidden" name="return_date" value="{{ $return_date }}">
                                         <input type="hidden" name="rent_type" value="{{ $rent_type }}">
+                                        <input type="hidden" name="additional_cost" value="{{ $additional_cost }}">
                                         <x-input.index label="Customer" name="customer" value="{{ $customer->name }}" disabled/>
                                     </div>
                                 </div>
@@ -193,7 +201,7 @@
                                            id="pay"
                                            name="pay"
                                            class="form-control @error('pay') is-invalid @enderror"
-                                           value="{{ Cart::total() }}"
+                                           value="{{ Cart::total() + $additional_cost }}"
                                            required
                                     >
 

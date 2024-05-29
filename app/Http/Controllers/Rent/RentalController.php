@@ -80,6 +80,11 @@ class RentalController extends Controller
 
     public function store(RentStoreRequest $request)
     {
+        $subtotal = Cart::subtotal();
+
+        $additional_cost = $request->additional_cost ?? 0;
+        $total = $subtotal + $additional_cost;
+
         $rent = Rent::create([
             'customer_id' => $request->customer_id,
             'payment_type' => $request->payment_type,
@@ -89,7 +94,8 @@ class RentalController extends Controller
             'total_products' => Cart::count(),
             'sub_total' => Cart::subtotal(),
             'vat' => Cart::tax(),
-            'total' => Cart::total(),
+            'total' => $total,
+            'additional_cost' => $additional_cost,
             'invoice_no' => IdGenerator::generate([
                 'table' => 'rents',
                 'field' => 'invoice_no',
