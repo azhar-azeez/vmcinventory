@@ -139,6 +139,12 @@
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-end">
+                                        Additional
+                                    </td>
+                                    <td class="text-center">{{ number_format($order->additional_cost, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-end">
                                         Paid amount
                                     </td>
                                     <td class="text-center">{{ number_format($order->pay, 2) }}</td>

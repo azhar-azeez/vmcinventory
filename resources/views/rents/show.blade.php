@@ -108,9 +108,9 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="6" class="text-end">
-                                        Payed amount
+                                        Additional
                                     </td>
-                                    <td class="text-center">{{ number_format($rent->pay, 2) }}</td>
+                                    <td class="text-center">{{ number_format($rent->additional_cost, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-end">VAT</td>
@@ -118,7 +118,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-end">Total</td>
-                                    <td class="text-center">{{ number_format($rent->total, 2) }}</td>
+                                    <td class="text-center">LKR : {{ number_format($rent->total, 2) }}</td>
                                 </tr>
 
                             </tbody>

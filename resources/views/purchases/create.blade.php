@@ -56,7 +56,7 @@
                                         label="Suppliers"
                                         id="supplier_id"
                                         name="supplier_id"
-                                        placeholder="Select Customer"
+                                        placeholder="Select Supplier"
                                         :data="$suppliers"
                                     />
 

@@ -15,7 +15,7 @@
         <meta name="HandheldFriendly" content="True"/>
         <meta name="MobileOptimized" content="320"/>
         <link rel="icon" href="{{ asset('vmc.ico') }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon"/>
+
         <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!"/>
         <meta name="canonical" content="https://tabler.io/demo/sign-in.html">
         <meta name="twitter:image:src" content="https://tabler.io/demo/static/og.png">
