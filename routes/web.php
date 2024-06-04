@@ -128,6 +128,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/orders/update/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::delete('/orders/cancel/{order}', [OrderController::class, 'cancel'])->name('orders.cancel');
 
+    Route::delete('/orders/delete/{order}', [OrderController::class, 'destroy'])->name('orders.delete');
+    
+
     // DUES
     Route::get('due/orders/', [DueOrderController::class, 'index'])->name('due.index');
     Route::get('due/order/view/{order}', [DueOrderController::class, 'show'])->name('due.show');

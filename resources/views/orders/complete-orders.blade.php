@@ -75,6 +75,7 @@
                                 </a>
                                 <x-button.print class="btn-icon"
                                 route="{{ route('order.downloadInvoice', $order->uuid) }}" />
+                                <x-button.delete class="btn-icon" onclick="return confirm('Are you sure to delete this order?!')" route="{{ route('orders.delete', $order->uuid) }}"/>
                             </td>
                         </tr>
                         @endforeach

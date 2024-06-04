@@ -178,6 +178,11 @@ class OrderController extends Controller
     {
         $order = Order::where('uuid', $uuid)->firstOrFail();
         $order->delete();
+
+        return redirect()
+            ->route('orders.index')
+            ->with('success', 'Order deleted successfully');
+
     }
 
     public function downloadInvoice($uuid)
