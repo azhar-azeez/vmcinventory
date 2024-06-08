@@ -52,13 +52,32 @@
                                     </div>
 
 
-                                    <x-tom-select
-                                        label="Suppliers"
-                                        id="supplier_id"
-                                        name="supplier_id"
-                                        placeholder="Select Supplier"
-                                        :data="$suppliers"
-                                    />
+                                    <div class="col-md-4">
+                                        <label for="payment_method" class="form-label required">
+                                            {{ __('Supplier') }}
+                                        </label>
+
+                                        <select
+                                            class="form-select form-control-solid @error('supplier_id') is-invalid @enderror"
+                                            id="supplier_id" name="supplier_id">
+                                            <option selected="" disabled="">
+                                                Select a Supplier:
+                                            </option>
+
+                                            @foreach ($suppliers as $supplier)
+                                                <option value="{{ $supplier->id }}" @selected(old('supplier_id') == $supplier->id)>
+                                                    {{ $supplier->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        @error('supplier_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
 
 
                                     
