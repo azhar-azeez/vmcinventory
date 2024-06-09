@@ -64,7 +64,7 @@
                 {{--- Unit Price ---}}
                 <td class="align-middle text-center">
                     @if($invoiceProduct['is_saved'])
-                        {{ $unit_cost = number_format($invoiceProduct['product_price'], 2) }}
+                        {{ $unit_cost = intval($invoiceProduct['product_price']) }}
 
                         <input type="hidden"
                                name="invoiceProducts[{{$index}}][unitcost]"

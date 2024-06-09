@@ -22,7 +22,7 @@ return new class extends Migration
 
             
 
-            $table->string('payment_method')->nullable()->after('total_amount')
+            $table->string('payment_method')->nullable()
                 ->comment('Payment method: cheque, credit, full cash');
 
 
