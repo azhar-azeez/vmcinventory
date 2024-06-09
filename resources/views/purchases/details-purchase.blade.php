@@ -128,7 +128,7 @@
                                         <td scope="row">{{ $item->product->product_code }}</td>
                                         <td scope="row"><span class="btn btn-warning">{{ $item->product->stock }}</span></td>
                                         <td scope="row"><span class="btn btn-success">{{ $item->quantity }}</span></td>
-                                        <td scope="row">{{ $item->unitcost }}</td>
+                                        <td scope="row">{{ number_format($item->unitcost / 100, 2) }}</td>
                                         <td scope="row">
                                             <span  class="btn btn-primary">{{ $item->total }}</span>
                                         </td>
