@@ -4,6 +4,7 @@ namespace App\Livewire\Tables;
 
 use Livewire\Component;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use Livewire\WithPagination;
 
 class PurchaseTable extends Component
@@ -20,9 +21,8 @@ class PurchaseTable extends Component
 
     public function sortBy($field): void
     {
-        if($this->sortField === $field)
-        {
-            $this->sortAsc = ! $this->sortAsc;
+        if ($this->sortField === $field) {
+            $this->sortAsc = !$this->sortAsc;
 
         } else {
             $this->sortAsc = true;
@@ -31,14 +31,36 @@ class PurchaseTable extends Component
         $this->sortField = $field;
     }
 
+    public static function containsNumbers($input)
+    {
+        $numberPattern = '/\d/';
+        return preg_match($numberPattern, $input);
+    }
+
     public function render()
     {
-        return view('livewire.tables.purchase-table', [
-            'purchases' => Purchase::where("user_id",auth()->id())
+
+        if (!$this->containsNumbers($this->search)) {
+
+            $supplierIds = Supplier::where('name', 'like', "%{$this->search}%")->pluck('id')->toArray();
+
+            $purchases = Purchase::where("user_id", auth()->id())
                 ->with('supplier')
-                ->search($this->search)
+                ->whereIn('supplier_id', $supplierIds)
                 ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                ->paginate($this->perPage)
-        ]);
+                ->paginate($this->perPage);
+
+            return view('livewire.tables.purchase-table', compact('purchases'));
+
+        } else {
+            return view('livewire.tables.purchase-table', [
+                'purchases' => Purchase::where("user_id", auth()->id())
+                    ->with('supplier')
+                    ->search($this->search)
+                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                    ->paginate($this->perPage)
+            ]);
+        }
+
     }
 }
