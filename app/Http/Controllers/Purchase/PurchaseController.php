@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Purchase;
 
-
+use Illuminate\Support\Facades\Log;
 use App\Enums\PurchaseStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Purchase\StorePurchaseRequest;
@@ -187,18 +187,54 @@ class PurchaseController extends Controller
         $sDate = $validatedData['start_date'];
         $eDate = $validatedData['end_date'];
 
+        // Fetch detailed purchase data
         $purchases = DB::table('purchase_details')
             ->join('products', 'purchase_details.product_id', '=', 'products.id')
             ->join('purchases', 'purchase_details.purchase_id', '=', 'purchases.id')
             ->join('users', 'users.id', '=', 'purchases.created_by')
-            ->whereBetween('purchases.updated_at',[$sDate,$eDate])
-            ->where('purchases.status','1')
-            ->select( 'purchases.purchase_no', 'purchases.updated_at', 'purchases.supplier_id', 'products.code', 'products.name', 'purchase_details.quantity', 'purchase_details.unitcost', 'purchase_details.total', 'purchases.payment_method', 'users.name as created_by')
+            ->whereBetween('purchases.updated_at', [$sDate, $eDate])
+            ->where('purchases.status', '1')
+            ->select(
+                'purchases.purchase_no',
+                'purchases.date',
+                'purchases.updated_at',
+                'purchases.supplier_id',
+                'products.code',
+                'products.name as product_name',
+                DB::raw('SUM(purchase_details.quantity) as quantity'),
+                DB::raw('AVG(purchase_details.unitcost) as unitcost'),
+                DB::raw('SUM(purchase_details.total) as total'),
+                'purchases.payment_method',
+                'users.name as created_by'
+            )
+            ->groupBy(
+                'purchases.purchase_no',
+                'purchases.date',
+                'purchases.updated_at',
+                'purchases.supplier_id',
+                'products.code',
+                'product_name',
+                'purchases.payment_method',
+                'users.name'
+            )
             ->get();
 
-        $purchase_array [] = array(
+        // Calculate total quantities per product
+        $productTotals = DB::table('purchase_details')
+            ->join('products', 'purchase_details.product_id', '=', 'products.id')
+            ->whereBetween('purchase_details.updated_at', [$sDate, $eDate])
+            ->select('products.name', DB::raw('SUM(purchase_details.quantity) as total_quantity'))
+            ->groupBy('products.name')
+            ->get();
+
+        // Initialize the array to store purchase data
+        $purchase_array = [];
+
+        // Add header row
+        $purchase_array[] = [
             'Date',
             'No Purchase',
+            'Purchase Date',
             'Supplier',
             'Product Code',
             'Product',
@@ -206,28 +242,61 @@ class PurchaseController extends Controller
             'Unitcost',
             'Total',
             'Purchase Type',
-            'Created By'
-        );
+            'Created By',
+            'Product Name',
+            'Total Products'
+        ];
 
-        foreach($purchases as $purchase)
-        {
-            $purchase_array[] = array(
-                'Date' => $purchase->updated_at,
-                'No Purchase' => $purchase->purchase_no,
-                'Supplier' => $purchase->supplier_id,
-                'Product Code' => $purchase->code,
-                'Product' => $purchase->name,
-                'Quantity' => $purchase->quantity,
-                'Unitcost' => $purchase->unitcost,
-                'Total' => $purchase->total,
-                'Created By' => $purchase->created_by
-            );
+        // Add purchase details rows
+        foreach ($purchases as $purchase) {
+            $purchase_array[] = [
+                $purchase->updated_at,
+                $purchase->purchase_no,
+                $purchase->date,
+                $purchase->supplier_id,
+                $purchase->code,
+                $purchase->product_name,
+                $purchase->quantity,
+                $purchase->unitcost,
+                $purchase->total,
+                $purchase->payment_method,
+                $purchase->created_by,
+                '', // This will be empty for detailed rows
+                ''  // This will be empty for detailed rows
+            ];
         }
 
+        // Debugging: Log the purchases array
+        Log::info('Detailed purchases:', $purchase_array);
+
+        // Add summary rows at the end
+        foreach ($productTotals as $productTotal) {
+            $purchase_array[] = [
+                '', // No date for summary
+                '', // No purchase number for summary
+                '', // No purchase date for summary
+                '', // No supplier for summary
+                '', // No product code for summary
+                '', // No product for summary
+                '', // No quantity for summary
+                '', // No unit cost for summary
+                '', // No total for summary
+                '', // No purchase type for summary
+                '', // No created by for summary
+                $productTotal->name, // Product name
+                $productTotal->total_quantity // Total quantity
+            ];
+        }
+
+        // Debugging: Log the final array before exporting
+        Log::info('Final array with summaries:', $purchase_array);
+
+        // Export to Excel
         $this->exportExcel($purchase_array);
     }
+
     
-    public function exportExcel($products)
+    public function exportExcel($data)
     {
         ini_set('max_execution_time', 0);
         ini_set('memory_limit', '4000M');
@@ -235,7 +304,7 @@ class PurchaseController extends Controller
         try {
             $spreadSheet = new Spreadsheet();
             $spreadSheet->getActiveSheet()->getDefaultColumnDimension()->setWidth(20);
-            $spreadSheet->getActiveSheet()->fromArray($products);
+            $spreadSheet->getActiveSheet()->fromArray($data);
             $Excel_writer = new Xls($spreadSheet);
             header('Content-Type: application/vnd.ms-excel');
             header('Content-Disposition: attachment;filename="purchase-report.xls"');
